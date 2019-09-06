@@ -1,0 +1,43 @@
+{
+  "manifest_version": 2,
+  "name": "YouNote",
+  "version": "0.1",
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": 
+  [
+    {
+      "matches":
+         [
+          "https://www.youtube.com/*",
+          "https://youtube.com/*"
+         ],
+      "js": ["jquery-3.4.1.min.js", "quill.js","content.js"]
+    }
+  ],
+
+  "permissions": 
+  [
+    "storage",
+    "tabs",
+    "activeTab"
+  ],
+
+
+  "commands": {
+    "take_notes":
+    {
+      "suggested_key":
+       {
+        "default": "Ctrl+Y"
+        },
+
+      "description": "Take down notes"
+    }
+  },
+
+  "browser_action": {
+    "default_icon": "icon.png"
+  }
+}
