@@ -99,15 +99,27 @@ pre {
 .hover {
   cursor: pointer;
 }
-#export_text{
+#export_text.day{
   padding: 5px; 
   background: white;
   border: solid black 1px;
   transition: all 1s;
 }
-#export_text:hover{
+#export_text:hover.day{
   background: black;
   color: white;
+  transition: all 1s;
+}
+#export_text.night{
+  padding: 5px; 
+  color: white;
+  background: black;
+  border: solid white 1px;
+  transition: all 1s;
+}
+#export_text:hover.night{
+  background: white;
+  color: black;
   transition: all 1s;
 }
 .switch label input[type=checkbox]:checked+.lever {
