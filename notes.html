@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Notes</title>
+  <title>YouNotes</title>
   
   <link type="text/css" rel="stylesheet" href='materialize.min.css' media="screen,projection"/>
   <link type="text/css" href='quill.snow.css' rel="stylesheet">
@@ -10,13 +10,17 @@
   <script type="text/javascript" src='content.js'></script>
   <script type="text/javascript" src='quill.js'></script>
 </head>
-<body class="center">
+<body class="center" id="body">
       <div class="user-view">
-        <div class="background" style="background-color: #3794e6"></div>
-        <a><span class="white-text name">Availability</span></a>
+        <a href="https://younotes.com/" target="_blank" style="display: flex; flex-direction: horizontal; align-items: center; justify-content: center;">
+          <img src="./YN.png" style="height: 30px; width: 45px;" />
+          <h5>
+            <span class="name switchColor">YouNotes</span>
+          </h5>
+        </a>
       </div>
 
-      <div id="editor">
+      <div id="editor" class="switchColor">
       </div>
 
       <!-- <div class="col s6">
@@ -24,7 +28,17 @@
         <textarea id="add-notes-area" name="add-notes-area" autofocus="" class="notes" style="font-size: 15px;"></textarea>
       </div>
     </div> -->
-      <button id="export_text" name="export_text">Export notes</button>
+      <div id="tools" style="display: flex; flex-direction: row; align-items: center; justify-content: space-around; position: absolute; height: 50px; width: 100%; bottom: 0;">
+        <button id="export_text" name="export_text">Export notes</button>
+        <div id="mode" class="switch black-text">
+          <label>
+            Day
+            <input type="checkbox" id="modeStat">
+            <span class="lever"></span>
+            Night
+          </label>
+        </div>
+      </div>
 
       <!-- <button id="take_ss" name="take_ss">take_ss</button> -->
 </body>

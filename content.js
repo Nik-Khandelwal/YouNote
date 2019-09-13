@@ -61,24 +61,59 @@ function Export2Doc() {
 document.addEventListener('DOMContentLoaded', function() {
   
   quill = new Quill('#editor', {
-  modules: {
-    toolbar: [
-      [{ header: [1, 2, false] }],
-      ['bold', 'italic', 'underline'],
-      ['image', 'code-block']
-    ]
-  },
-  theme: 'snow'  // or 'bubble'
-});
-
-    var btn = document.getElementById("take_ss");
-    btn.addEventListener("click", function() {
-      chrome.runtime.sendMessage({msg: "capture"});
-      console.log("capture");
-  }, false);
-  var button = document.getElementById("export_text");
-    button.addEventListener("click", function() {
-    Export2Doc();
-    }, false);
+    modules: {
+      toolbar: [
+        [{ header: [1, 2, false] }],
+        ['bold', 'italic', 'underline'],
+        ['image', 'code-block']
+      ]
+    },
+    theme: 'snow'  // or 'bubble'
   });
+
+  //   var btn = document.getElementById("take_ss");
+  //   btn.addEventListener("click", function() {
+  //     chrome.runtime.sendMessage({msg: "capture"});
+  //     console.log("capture");
+  // }, false);
+  var modeStatus = false;
+
+  var button = document.getElementById("export_text");
+  button.addEventListener("click", function() {
+    Export2Doc();
+  }, false);
+
+  var mode = document.getElementById("mode");
+  mode.addEventListener("click", function() {
+    //console.log(document.getElementById("modeStat").checked)
+    if(document.getElementById("modeStat").checked != modeStatus){
+      modeStatus = document.getElementById("modeStat").checked;
+      console.log(modeStatus);
+      if(modeStatus==true){
+        document.getElementById("body").style.background = 'black';
+        document.getElementsByClassName("switchColor")[0].style.color = "white";
+        document.getElementsByClassName("switchColor")[1].style.color = "white";
+
+      }
+      else if(modeStatus==false){
+        document.getElementById("body").style.background = 'white';
+        document.getElementsByClassName("switchColor")[0].style.color = "black";
+        document.getElementsByClassName("switchColor")[1].style.color = "black";
+      }
+    }
+  })  
+  // $(".switch").on("click",function() {
+
+  //     var status = $(this).find("input[type=checkbox]").prop('checked');
+  //     console.log(status)
+
+  //      $.ajax({
+  //         url : url,
+  //         type : "post",
+  //         data : { status : status}
+  //     })
+
+  // });
+
+});
 
