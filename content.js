@@ -94,11 +94,18 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementsByClassName("switchColor")[0].style.color = "white";
         document.getElementsByClassName("switchColor")[1].style.color = "white";
 
+        var btn = document.getElementById("export_text");
+        btn.classList.toggle("day");
+        btn.classList.toggle("night");
       }
       else if(modeStatus==false){
         document.getElementById("body").style.background = 'white';
         document.getElementsByClassName("switchColor")[0].style.color = "black";
         document.getElementsByClassName("switchColor")[1].style.color = "black";
+
+        var btn = document.getElementById("export_text");
+        btn.classList.toggle("day");
+        btn.classList.toggle("night");
       }
     }
   })  

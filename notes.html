@@ -10,9 +10,9 @@
   <script type="text/javascript" src='content.js'></script>
   <script type="text/javascript" src='quill.js'></script>
 </head>
-<body class="center" id="body">
+<body class="center" id="body" style="display: flex; flex-direction: column; height: 100vh;">
       <div class="user-view">
-        <a href="https://younotes.com/" target="_blank" style="display: flex; flex-direction: horizontal; align-items: center; justify-content: center;">
+        <a href="https://younotes.com/" target="_blank" style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
           <img src="./YN.png" style="height: 30px; width: 45px;" />
           <h5>
             <span class="name switchColor">YouNotes</span>
@@ -28,8 +28,8 @@
         <textarea id="add-notes-area" name="add-notes-area" autofocus="" class="notes" style="font-size: 15px;"></textarea>
       </div>
     </div> -->
-      <div id="tools" style="display: flex; flex-direction: row; align-items: center; justify-content: space-around; position: absolute; height: 50px; width: 100%; bottom: 0;">
-        <button id="export_text" name="export_text">Export notes</button>
+      <div id="tools" style="display: flex; flex-direction: row; align-items: center; justify-content: space-around; height: 50px; width: 100%;">
+        <button id="export_text" class="day" name="export_text">Export notes</button>
         <div id="mode" class="switch black-text">
           <label>
             Day
