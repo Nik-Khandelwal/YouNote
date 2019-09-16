@@ -133,6 +133,3 @@ pre {
 .switch label input[type=checkbox]:checked+.lever:after {
   background-color: black;
 }
-.switch label .lever {
-  margin: 0px 6px;
-}
