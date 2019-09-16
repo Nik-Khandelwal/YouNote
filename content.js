@@ -1,4 +1,5 @@
 var quill;
+var toggle_auto;
 
 chrome.storage.onChanged.addListener(function(changes, namespace) {
         var note = changes['note'].newValue;
@@ -114,6 +115,43 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
   })  
+
+  var mode = document.getElementById("mode");
+  mode.addEventListener("click", function() {
+    //console.log(document.getElementById("modeStat").checked)
+    if(document.getElementById("modeStat").checked != modeStatus){
+      modeStatus = document.getElementById("modeStat").checked;
+      console.log(modeStatus);
+      if(modeStatus==true){
+        
+        toggle_auto = setInterval(function(){ 
+          console.log("toggle_auto")
+          chrome.runtime.sendMessage({message: "toggle_auto"}) }, 1000);
+
+      }
+      else if(modeStatus==false){
+        
+        clearInterval(toggle_auto);
+
+      }
+    }
+  })  
+
+  // var auto = document.getElementById("auto");
+  // auto.addEventListener("click", function() {
+  //   //console.log(document.getElementById("autoStat").checked)
+  //   if(document.getElementById("autoStat").checked != autoStatus){
+  //     autoStatus = document.getElementById("autoStat").checked;
+  //     console.log(autoStatus);
+  //     if(autoStatus==true){
+  //         toggle_auto = setInterval(function(){ console.log("Hello") }, 3000);
+  //     }
+  //     else if(autoStatus==false){
+
+  //           clearInterval(toggle_auto);
+  //     }
+  //   }
+  // })  
   // $(".switch").on("click",function() {
 
   //     var status = $(this).find("input[type=checkbox]").prop('checked');

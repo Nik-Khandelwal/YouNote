@@ -4,7 +4,7 @@ var prev_subs;
 var title;
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-
+    // console.log(request)
     if( request.message === "response_subs" )
     {
       
@@ -34,6 +34,10 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     //             console.log(dataUrl);
     //         });
     // }
+    else if(request.message === "toggle_auto" ){
+      console.log("toggle_auto")
+      chrome.tabs.sendMessage(yt_id, {"message": "request_subs"});
+    }
     else if(request.message === "response_title" ){
         title = request.yt_title;
     }
