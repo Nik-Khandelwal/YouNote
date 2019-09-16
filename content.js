@@ -66,9 +66,11 @@ document.addEventListener('DOMContentLoaded', function() {
   quill = new Quill('#editor', {
     modules: {
       toolbar: [
-        [{ header: [1, 2, false] }],
-        ['bold', 'italic', 'underline'],
-        ['image', 'code-block']
+        //[{ header: [1, 2, false] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        ['image', 'code-block'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'align': [] }, { 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [{ 'color': [] }, { 'background': [] }],
       ]
     },
     theme: 'snow'  // or 'bubble'
