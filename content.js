@@ -60,6 +60,9 @@ function Export2Doc() {
 
 document.addEventListener('DOMContentLoaded', function() {
   
+  setTimeout( function(){
+    document.getElementById("screen1").style.display="none";
+  },2000);
   quill = new Quill('#editor', {
     modules: {
       toolbar: [
