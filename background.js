@@ -84,6 +84,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
                   "type":"popup",
                   "left":parseInt(maxWidth*10/12),
                   "width":parseInt(maxWidth*1/4),
+                  "height":parseInt(maxHeight)
     });
 
     chrome.windows.getLastFocused({"windowTypes":['popup']},function(wind) {
