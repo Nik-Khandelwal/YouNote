@@ -2,6 +2,7 @@ var note_id;
 var yt_id;
 var prev_subs;
 var title;
+var url;
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     // console.log(request)
@@ -34,6 +35,9 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     //             console.log(dataUrl);
     //         });
     // }
+    else if(request.message === "download" ){
+      chrome.tabs.create({"url": chrome.extension.getURL('http://younote.pythonanywhere.com/')});
+    }
     else if(request.message === "toggle_auto" ){
       console.log("toggle_auto")
       chrome.tabs.sendMessage(yt_id, {"message": "request_subs"});
@@ -43,6 +47,22 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
 }
 );
+
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+   var new_url = changeInfo.url
+   if(new_url && new_url != url)
+   {
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      var activeTab = tabs[0];
+      console.log(activeTab);
+      chrome.tabs.sendMessage(activeTab.id, {"message": "request_title"});
+      yt_id = activeTab.id;
+      });
+      url = new_url;
+      prev_subs = undefined;
+   }
+}); 
+
 
 
 chrome.browserAction.onClicked.addListener(function(tab) {
@@ -89,8 +109,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
     chrome.windows.getLastFocused({"windowTypes":['popup']},function(wind) {
     note_id = wind.id;
-  });
-    
+  });    
 
 });
 

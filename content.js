@@ -1,14 +1,17 @@
 var quill;
 var toggle_auto;
+var title;
 
 chrome.storage.onChanged.addListener(function(changes, namespace) {
+
         var note = changes['note'].newValue;
         // document.getElementById("add-notes-area").value += storageChange.newValue;
         // document.getElementsByClassName("ql-editor")[0].innerHTML += storageChange.newValue;
 
         if(note[0]=='#')
         {
-            quill.insertText(0, note.split("$")[0].substr(1),{'italic': true });
+            title = note.split("$")[0].substr(1);
+            quill.insertText(0, title,{'italic': true ,'underline':true});
 
             note = note.split("$")[1];
         }
@@ -16,12 +19,14 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
         var len = quill.getLength();
         quill.insertText(len-1, note);
         console.log(document.getElementById("export_text"));
+      
         
 });
 
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
+    console.log(request)
     if( request.message === "request_subs" ) {
       
       var curr_subs = document.getElementsByClassName("captions-text")[0].innerText
@@ -35,26 +40,40 @@ chrome.runtime.onMessage.addListener(
         console.log(yt_title)
         chrome.runtime.sendMessage({"message": "response_title", "yt_title": yt_title});
     }
+    // else if(request.message === "download_note")
+    // {
+    //   console.log("Download")
+    //   document.addEventListener('DOMContentLoaded', function() {
+    //     // setTimeout(5000)
+    //     // var dwnl = document.getElementById("download");
+    //     // dwnl.addEventListener("click", function() {
+    //     //   Export2Doc(request.download)
+    //     // }, false);
+    //     console.log("Hello")
+    //   });
+    // }
   }
 );
 
-function Export2Doc() {
 
-    var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
+function Export2Doc(note) {
+
+      var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
             "xmlns:w='urn:schemas-microsoft-com:office:word' "+
             "xmlns='http://www.w3.org/TR/REC-html40'>"+
             "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>";
        var footer = "</body></html>";
 
-       var sourceHTML = header+document.getElementById("editor").innerHTML+footer;
+       var sourceHTML = header+note+footer;
        
        var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
        var fileDownload = document.createElement("a");
        document.body.appendChild(fileDownload);
        fileDownload.href = source;
-       fileDownload.download = 'notes.doc';
+       fileDownload.download = title+'.doc';
        fileDownload.click();
        document.body.removeChild(fileDownload);
+       document.location.reload(true)
 }
 
 
@@ -63,18 +82,24 @@ document.addEventListener('DOMContentLoaded', function() {
   setTimeout( function(){
     document.getElementById("screen1").style.display="none";
   },2000);
-  quill = new Quill('#editor', {
-    modules: {
-      toolbar: [
-        //[{ header: [1, 2, false] }],
-        ['bold', 'italic', 'underline', 'strike'],
-        ['image', 'code-block'],
-        [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'align': [] }, { 'header': [1, 2, 3, 4, 5, 6, false] }],
-        [{ 'color': [] }, { 'background': [] }],
-      ]
-    },
-    theme: 'snow'  // or 'bubble'
-  });
+
+  if(document.getElementById("editor"))
+  {
+    quill = new Quill('#editor', {
+      modules: {
+        toolbar: [
+          //[{ header: [1, 2, false] }],
+          ['bold', 'italic', 'underline', 'strike'],
+          ['image', 'code-block'],
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'align': [] }, { 'header': [1, 2, 3, 4, 5, 6, false] }],
+          [{ 'color': [] }, { 'background': [] }],
+        ]
+      },
+      placeholder: '\n\n\n\n             Press / Hold  Ctrl+Y \n\n                         OR \n\n          Switch ON Auto typing\n\n\n\n\n\n\n',
+      theme: 'snow'  // or 'bubble'
+    });
+  }
+
 
   //   var btn = document.getElementById("take_ss");
   //   btn.addEventListener("click", function() {
@@ -85,8 +110,11 @@ document.addEventListener('DOMContentLoaded', function() {
   var autoStatus = true;
 
   var button = document.getElementById("export_text");
+  chrome.runtime.sendMessage({message: "toggle_auto"})
   button.addEventListener("click", function() {
-    Export2Doc();
+    var note = document.getElementById("editor").innerHTML
+    chrome.runtime.sendMessage({message: "download",download:note})
+    Export2Doc(note);
   }, false);
 
   var mode = document.getElementById("mode");
