@@ -4,42 +4,35 @@ var title;
 
 chrome.storage.onChanged.addListener(function(changes, namespace) {
 
-        var note = changes['note'].newValue;
-        // document.getElementById("add-notes-area").value += storageChange.newValue;
-        // document.getElementsByClassName("ql-editor")[0].innerHTML += storageChange.newValue;
-        var len;
+  var note = changes['note'].newValue;
+  var len;
 
-        if(note[0]=='#')
-        {
-            len = quill.getLength();
-            title = note.split("$")[0].substr(1);
-            if(len==1)
-            {
-                quill.insertText(len-1, title,{'italic': true ,'underline':true});
-            }
-            else
-            {
-                quill.insertText(len-1, "\n\n"+title,{'italic': true ,'underline':true});
-            }
-            note = note.split("$")[1];
-        }
+  if(note[0]=='#')
+  {
+    len = quill.getLength();
+    title = note.split("$")[0].substr(1);
+    if(len==1)
+    {
+        quill.insertText(len-1, title,{'italic': true ,'underline':true});
+    }
+    else
+    {
+        quill.insertText(len-1, "\n\n"+title,{'italic': true ,'underline':true});
+    }
+    note = note.split("$")[1];
+  }
 
-        len = quill.getLength();
-        quill.insertText(len-1, note);
-        // console.log(document.getElementById("export_text"));
-      
-        
+  len = quill.getLength();
+  quill.insertText(len-1, note);    
 });
 
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-    // console.log(request)
     if( request.message === "request_subs" ) {
-      try{
+      try
+      {
       var curr_subs = document.getElementsByClassName("captions-text")[0].innerText
-      // console.log(curr_subs);
-
       chrome.runtime.sendMessage({"message": "response_subs", "curr_subs": curr_subs});
       }
       catch(err){console.log("yep")};
@@ -48,23 +41,10 @@ chrome.runtime.onMessage.addListener(
     {
       try{
         var yt_title = document.getElementsByClassName("title style-scope ytd-video-primary-info-renderer")[0].innerText;
-        // console.log(yt_title)
         chrome.runtime.sendMessage({"message": "response_title", "yt_title": yt_title});
         }
       catch(err){console.log("yep")};
     }
-    // else if(request.message === "download_note")
-    // {
-    //   // console.log("Download")
-    //   document.addEventListener('DOMContentLoaded', function() {
-    //     // setTimeout(5000)
-    //     // var dwnl = document.getElementById("download");
-    //     // dwnl.addEventListener("click", function() {
-    //     //   Export2Doc(request.download)
-    //     // }, false);
-    //     // console.log("Hello")
-    //   });
-    // }
   }
 );
 
@@ -101,7 +81,6 @@ document.addEventListener('DOMContentLoaded', function() {
     quill = new Quill('#editor', {
       modules: {
         toolbar: [
-          //[{ header: [1, 2, false] }],
           ['bold', 'italic', 'underline', 'strike'],
           ['image', 'code-block'],
           [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'align': [] }, { 'header': [1, 2, 3, 4, 5, 6, false] }],
@@ -113,12 +92,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-
-  //   var btn = document.getElementById("take_ss");
-  //   btn.addEventListener("click", function() {
-  //     chrome.runtime.sendMessage({msg: "capture"});
-  //     // console.log("capture");
-  // }, false);
   var modeStatus = false;
   var autoStatus = true;
 
@@ -132,10 +105,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   var mode = document.getElementById("mode");
   mode.addEventListener("click", function() {
-    //// console.log(document.getElementById("modeStat").checked)
     if(document.getElementById("modeStat").checked != modeStatus){
       modeStatus = document.getElementById("modeStat").checked;
-      // console.log(modeStatus);
       if(modeStatus==true){
         document.getElementById("body").style.background = 'black';
         document.getElementsByClassName("switchColor")[0].style.color = "white";
@@ -155,38 +126,14 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.classList.toggle("night");
       }
     }
-  })  
-
-  // var mode = document.getElementById("mode");
-  // mode.addEventListener("click", function() {
-  //   //// console.log(document.getElementById("modeStat").checked)
-  //   if(document.getElementById("modeStat").checked != modeStatus){
-  //     modeStatus = document.getElementById("modeStat").checked;
-  //     // console.log(modeStatus);
-  //     if(modeStatus==true){
-        
-        // toggle_auto = setInterval(function(){ 
-        //   // console.log("toggle_auto")
-        //   chrome.runtime.sendMessage({message: "toggle_auto"}) }, 1000);
-
-  //     }
-  //     else if(modeStatus==false){
-        
-  //       clearInterval(toggle_auto);
-
-  //     }
-  //   }
-  // })  
+  })
 
   var auto = document.getElementById("auto");
   auto.addEventListener("click", function() {
-    //// console.log(document.getElementById("autoStat").checked)
-    if(document.getElementById("autoStat").checked != autoStatus){
+  if(document.getElementById("autoStat").checked != autoStatus){
       autoStatus = document.getElementById("autoStat").checked;
-      // console.log(autoStatus);
       if(autoStatus==true){
           toggle_auto = setInterval(function(){ 
-          // console.log("toggle_auto")
           chrome.runtime.sendMessage({message: "toggle_auto"}) }, 1000);
       }
       else if(autoStatus==false){
@@ -195,18 +142,5 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
   })  
-//   $(".switch").on("click",function() {
-
-//       var status = $(this).find("input[type=checkbox]").prop('checked');
-//       // console.log(status)
-
-//        $.ajax({
-//           url : url,
-//           type : "post",
-//           data : { status : status}
-//       })
-
-//   });
-
 });
 
