@@ -3,7 +3,8 @@
   "name": "YouNote",
   "version": "0.1",
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["background.js"],
+    "persistent": false
   },
   "content_scripts": 
   [
@@ -21,7 +22,8 @@
   [
     "storage",
     "tabs",
-    "activeTab"
+    "activeTab",
+    "declarativeContent"
   ],
 
 
@@ -37,7 +39,7 @@
     }
   },
 
-  "browser_action": {
+  "page_action": {
     "default_icon": "ynt.png"
   }
 }
