@@ -6,25 +6,28 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
 
   var note = changes['note'].newValue;
   var len;
+  try{
+      if(note[0]=='#')
+      {
+        len = quill.getLength();
+        title = note.split("$")[0].substr(1);
+        if(len==1)
+        {
+            quill.insertText(len-1, title,{'italic': true ,'underline':true});
+        }
+        else
+        {
+            quill.insertText(len-1, "\n\n"+title,{'italic': true ,'underline':true});
+        }
+        note = note.split("$")[1];
+      }
 
-  if(note[0]=='#')
-  {
-    len = quill.getLength();
-    title = note.split("$")[0].substr(1);
-    if(len==1)
-    {
-        quill.insertText(len-1, title,{'italic': true ,'underline':true});
-    }
-    else
-    {
-        quill.insertText(len-1, "\n\n"+title,{'italic': true ,'underline':true});
-    }
-    note = note.split("$")[1];
+      len = quill.getLength();
+      quill.insertText(len-1, note);  
   }
-
-  len = quill.getLength();
-  quill.insertText(len-1, note);    
+  catch(err){console.log("yep")};
 });
+
 
 
 chrome.runtime.onMessage.addListener(
@@ -50,7 +53,8 @@ chrome.runtime.onMessage.addListener(
 
 
 function Export2Doc(note) {
-
+    try
+    {
       var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
             "xmlns:w='urn:schemas-microsoft-com:office:word' "+
             "xmlns='http://www.w3.org/TR/REC-html40'>"+
@@ -67,7 +71,10 @@ function Export2Doc(note) {
        fileDownload.click();
        document.body.removeChild(fileDownload);
        document.location.reload(true)
+        }
+      catch(err){console.log("yep")};
 }
+
 
 
 document.addEventListener('DOMContentLoaded', function() {

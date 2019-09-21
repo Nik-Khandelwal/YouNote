@@ -31,9 +31,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   }
 });
 
+
+
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   var new_url = changeInfo.url
-  if(new_url != undefined && new_url != url)
+  if(tabId == yt_id && new_url != undefined && new_url != url)
   {
     setTimeout(function()
     { 
@@ -79,6 +81,8 @@ chrome.browserAction.onClicked.addListener(function(tab) {
   note_id = wind.id;
   });
 });
+
+
 
 chrome.commands.onCommand.addListener(function(command) {
   chrome.tabs.sendMessage(yt_id, {"message": "request_subs"});
