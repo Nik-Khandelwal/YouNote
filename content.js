@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
           [{ 'color': [] }, { 'background': [] }],
         ]
       },
-      placeholder: '\n\n\n\n             Press / Hold  Ctrl+Y \n\n                         OR \n\n          Switch ON Auto typing\n\n\n\n\n\n\n',
+      placeholder: '\n\n\n          1. Switch ON captions.\n\n\n          2. Press / Hold  Ctrl+Y \n\n                         OR \n\n          Switch ON Auto typing\n\n\n\n\n\n\n\nFree Version only supports video with subtitles',
       theme: 'snow'  // or 'bubble'
     });
   }

@@ -1,13 +1,13 @@
 var note_id;
 var yt_id;
 var prev_subs = undefined;
-var title;
+var title = undefined;
 var url;
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   if( request.message === "response_subs" )
   {
-    if(prev_subs == undefined)
+    if(prev_subs == undefined && title != undefined)
     {
       chrome.storage.sync.set({'note': "#"+title+"$\n\n"+request.curr_subs.replace(/("\r\n|\n|\r)/gm, " ")}, function() {});
     }
@@ -19,7 +19,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   }
   else if(request.message === "download" )
   {
-    chrome.tabs.create({"url": chrome.extension.getURL('http://younote.pythonanywhere.com/')});
+    chrome.tabs.create({"url": 'http://younote.pythonanywhere.com/'});
   }
   else if(request.message === "toggle_auto" )
   {
